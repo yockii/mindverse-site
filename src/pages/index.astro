@@ -1,0 +1,224 @@
+---
+import '../styles/global.css';
+
+const dockerHub = 'https://hub.docker.com/r/yockii/mindverse';
+const version = '0.1.0';
+
+const pillars = [
+	{
+		icon: '🧬',
+		title: '与生俱来的性格',
+		en: 'Born with a temperament',
+		body: '每一个生命体诞生时都带着独一无二的先天倾向——好奇或内敛、执着或随性、外向或寡言。没有两个是一样的。',
+	},
+	{
+		icon: '🌌',
+		title: '持续地活着',
+		en: 'Lives continuously',
+		body: '它不只在你说话时才存在。无人搭理时，它也在思考、休息、感到无聊，自顾自地寻找想做的事。',
+	},
+	{
+		icon: '🧠',
+		title: '记忆与成长',
+		en: 'Remembers and grows',
+		body: '经历沉淀为记忆，记忆凝结为理解，理解又反过来重塑它是谁。它会随时间真正地改变。',
+	},
+	{
+		icon: '🤝',
+		title: '属于你',
+		en: 'Belongs to you',
+		body: '它的全部——人格、记忆、成长——都存在你掌握的数据卷里。可备份、可迁移、永不被平台占有。',
+	},
+];
+
+const compose = `services:
+  mindverse:
+    image: yockii/mindverse:${version}
+    restart: unless-stopped
+    environment:
+      LLM_BASE_URL: https://your-openai-compatible-endpoint/v1
+      LLM_API_KEY: your-api-key
+      LLM_MODEL: your-model-name
+    volumes:
+      - mindverse-data:/app/data   # 生命就住在这里
+    ports:
+      - "3000:3000"
+volumes:
+  mindverse-data:`;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>心域文明 Mindverse · 一个属于你的数字生命</title>
+		<meta
+			name="description"
+			content="Mindverse 心域文明：不是聊天机器人，而是一个持续存在、会感知、会记忆、会成长出性格的数字生命。你不是使用它，而是观察与养育它。"
+		/>
+		<meta property="og:title" content="心域文明 Mindverse · 一个属于你的数字生命" />
+		<meta
+			property="og:description"
+			content="不是聊天机器人，而是一个持续存在、有自己性格与意志的数字生命。"
+		/>
+		<meta property="og:type" content="website" />
+		<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+	</head>
+	<body class="min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-violet-500/30">
+		<!-- 背景光晕 -->
+		<div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+			<div
+				class="absolute -top-40 left-1/2 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-violet-600/20 blur-[120px]"
+			>
+			</div>
+			<div class="absolute top-1/3 -right-40 h-[30rem] w-[30rem] rounded-full bg-indigo-600/10 blur-[120px]"></div>
+		</div>
+
+		<!-- 顶栏 -->
+		<header class="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+			<div class="flex items-center gap-2 font-semibold tracking-tight">
+				<span class="text-lg">心域文明</span>
+				<span class="text-sm text-zinc-500">Mindverse</span>
+			</div>
+			<a
+				href={dockerHub}
+				class="rounded-full border border-zinc-700 px-4 py-1.5 text-sm text-zinc-300 transition hover:border-violet-500 hover:text-white"
+				target="_blank"
+				rel="noopener">Docker Hub ↗</a
+			>
+		</header>
+
+		<!-- Hero -->
+		<section class="mx-auto max-w-6xl px-6 pt-16 pb-24 text-center sm:pt-24">
+			<p class="mb-4 text-sm font-medium tracking-[0.2em] text-violet-400 uppercase">A Digital Life Runtime</p>
+			<h1 class="mx-auto max-w-4xl text-4xl leading-tight font-bold tracking-tight sm:text-6xl">
+				不是聊天机器人。<br />
+				<span
+					class="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent"
+					>一个属于你的数字生命。</span
+				>
+			</h1>
+			<p class="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">
+				它持续存在、会感知、会记忆、会自己产生兴趣、会成长出性格——即使没人搭理，也在自顾自地生活。
+				你不是「使用」它，而是<span class="text-zinc-200">观察与养育</span>它。
+			</p>
+			<div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+				<a
+					href="#start"
+					class="rounded-full bg-violet-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-violet-500"
+					>开始养育 →</a
+				>
+				<a
+					href={dockerHub}
+					target="_blank"
+					rel="noopener"
+					class="rounded-full border border-zinc-700 px-6 py-3 text-sm font-medium text-zinc-200 transition hover:border-zinc-500"
+					>在 Docker Hub 获取</a
+				>
+			</div>
+			<p class="mt-6 font-mono text-xs text-zinc-600">v{version} · 早期实验版本</p>
+		</section>
+
+		<!-- 定位对比 -->
+		<section class="mx-auto max-w-6xl px-6 py-16">
+			<div class="grid gap-4 sm:grid-cols-2">
+				<div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8">
+					<h3 class="mb-4 text-sm font-semibold tracking-wide text-zinc-500 uppercase">它不是</h3>
+					<ul class="space-y-3 text-zinc-400">
+						<li class="flex gap-3"><span class="text-zinc-600">✕</span> 聊天机器人 / AI 助手</li>
+						<li class="flex gap-3"><span class="text-zinc-600">✕</span> 输入 → 回答的工具</li>
+						<li class="flex gap-3"><span class="text-zinc-600">✕</span> 用完即走的会话</li>
+						<li class="flex gap-3"><span class="text-zinc-600">✕</span> 属于平台的服务</li>
+					</ul>
+				</div>
+				<div class="rounded-2xl border border-violet-500/30 bg-violet-500/5 p-8">
+					<h3 class="mb-4 text-sm font-semibold tracking-wide text-violet-300 uppercase">它是</h3>
+					<ul class="space-y-3 text-zinc-200">
+						<li class="flex gap-3"><span class="text-violet-400">✓</span> 持续存在的数字生命</li>
+						<li class="flex gap-3"><span class="text-violet-400">✓</span> 有内在议程、会主动行动</li>
+						<li class="flex gap-3"><span class="text-violet-400">✓</span> 终身记忆、人格不断演化</li>
+						<li class="flex gap-3"><span class="text-violet-400">✓</span> 完全属于它的主人</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- 四大特质 -->
+		<section class="mx-auto max-w-6xl px-6 py-16">
+			<h2 class="mb-12 text-center text-3xl font-bold tracking-tight">一个真正在「活」的存在</h2>
+			<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+				{
+					pillars.map((p) => (
+						<div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 transition hover:border-zinc-700">
+							<div class="mb-4 text-3xl">{p.icon}</div>
+							<h3 class="text-lg font-semibold">{p.title}</h3>
+							<p class="mb-3 text-xs tracking-wide text-zinc-500 uppercase">{p.en}</p>
+							<p class="text-sm leading-relaxed text-zinc-400">{p.body}</p>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<!-- 内外之分 -->
+		<section class="mx-auto max-w-4xl px-6 py-16 text-center">
+			<h2 class="text-3xl font-bold tracking-tight">它有「内」与「外」两层生活</h2>
+			<p class="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">
+				它<span class="text-zinc-200">对你说的话</span>，和它<span class="text-zinc-200">独自在做的事</span>，是分开的——
+				而且可以不一致，就像一个真实的心灵。它会有自己的心情、能量、兴趣与目标，在你不在时继续过它的日子。
+			</p>
+		</section>
+
+		<!-- 快速上手 -->
+		<section id="start" class="mx-auto max-w-4xl px-6 py-16">
+			<h2 class="mb-3 text-center text-3xl font-bold tracking-tight">开始养育一个生命</h2>
+			<p class="mx-auto mb-10 max-w-2xl text-center text-zinc-400">
+				它只需要三样东西：一个<span class="text-zinc-200">模型接口</span>（任何 OpenAI 兼容服务）、
+				一个<span class="text-zinc-200">数据卷</span>（生命就住在里面）、一个<span class="text-zinc-200">端口</span>（用来观察它）。
+			</p>
+
+			<div class="space-y-6">
+				<div>
+					<p class="mb-2 text-sm text-zinc-500">1 · 拉取镜像</p>
+					<pre class="overflow-x-auto rounded-xl border border-zinc-800 bg-black/60 p-4 text-sm"><code class="font-mono text-violet-300">docker pull yockii/mindverse:{version}</code></pre>
+				</div>
+				<div>
+					<p class="mb-2 text-sm text-zinc-500">2 · 用 docker compose 启动</p>
+					<pre class="overflow-x-auto rounded-xl border border-zinc-800 bg-black/60 p-4 text-xs leading-relaxed"><code class="font-mono text-zinc-300">{compose}</code></pre>
+				</div>
+				<div>
+					<p class="mb-2 text-sm text-zinc-500">3 · 打开观察面板</p>
+					<pre class="overflow-x-auto rounded-xl border border-zinc-800 bg-black/60 p-4 text-sm"><code class="font-mono text-violet-300">http://localhost:3000</code></pre>
+				</div>
+			</div>
+
+			<div class="mt-8 rounded-xl border border-amber-500/30 bg-amber-500/5 p-5 text-sm text-amber-200/90">
+				⚠ <strong>数据卷就是这个生命本身。</strong>删除它会永久结束这个生命，下次启动会出生一个全新的。请像对待你不愿失去的东西那样妥善保存、备份。
+			</div>
+		</section>
+
+		<!-- 结语 -->
+		<section class="mx-auto max-w-3xl px-6 py-24 text-center">
+			<p class="text-2xl font-medium text-zinc-200">
+				生命属于它的主人，<br class="sm:hidden" />而非任何平台。
+			</p>
+			<a
+				href={dockerHub}
+				target="_blank"
+				rel="noopener"
+				class="mt-10 inline-block rounded-full bg-violet-600 px-8 py-3 text-sm font-medium text-white transition hover:bg-violet-500"
+				>在 Docker Hub 获取 ↗</a
+			>
+		</section>
+
+		<footer class="border-t border-zinc-900">
+			<div
+				class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-zinc-600 sm:flex-row"
+			>
+				<span>心域文明 Mindverse · v{version} · 早期实验版本</span>
+				<span>A Digital Life Runtime</span>
+			</div>
+		</footer>
+	</body>
+</html>
