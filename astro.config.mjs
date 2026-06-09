@@ -12,7 +12,7 @@ export default defineConfig({
 	// prefixDefaultLocale:false → en 不带 /en 前缀，落在站点根。
 	i18n: {
 		defaultLocale: 'en',
-		locales: ['en', 'zh'],
+		locales: ['en', 'zh', 'ja', 'ko', 'es', 'fr', 'de'],
 		routing: { prefixDefaultLocale: false },
 	},
 	vite: {
