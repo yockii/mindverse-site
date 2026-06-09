@@ -1,0 +1,261 @@
+---
+import '../styles/global.css';
+import { ui, DEFAULT_LANG, type Lang } from '../i18n';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+
+const dockerHub = 'https://hub.docker.com/r/yockii/taixu';
+const repo = 'https://github.com/yockii/taixu-site';
+const issues = 'https://github.com/yockii/taixu-site/issues';
+const version = '0.1.6';
+// BASE_URL 不带尾斜杠，统一去尾再拼。
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// 语言切换目标：en=站点根；zh=/zh/。其余语言可扩展。
+const switchHref = lang === DEFAULT_LANG ? `${base}/zh/` : `${base}/`;
+
+const compose = `services:
+  taixu:
+    image: yockii/taixu:${version}
+    restart: unless-stopped
+    environment:
+      LLM_BASE_URL: https://your-openai-compatible-endpoint/v1
+      LLM_API_KEY: your-api-key
+      LLM_MODEL: your-model-name
+    volumes:
+      - taixu-data:/app/data       # ${t.composeComments.brain}
+      - ./workspace:/workspace     # ${t.composeComments.workspace}
+    ports:
+      - "3000:3000"
+volumes:
+  taixu-data:`;
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{t.metaTitle}</title>
+		<meta name="description" content={t.metaDesc} />
+		<meta property="og:title" content={t.ogTitle} />
+		<meta property="og:description" content={t.ogDesc} />
+		<meta property="og:type" content="website" />
+		<link rel="icon" href={`${base}/favicon.svg`} />
+	</head>
+	<body class="min-h-screen bg-black text-zinc-100 antialiased selection:bg-emerald-500/30">
+		<div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+			<div class="tx-starfield"></div>
+			<div class="tx-blackhole">
+				<div class="tx-disk"></div>
+				<div class="tx-core"></div>
+				<div class="tx-whitehole"></div>
+			</div>
+		</div>
+
+		<!-- 顶栏 -->
+		<header class="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+			<div class="flex items-center gap-2 font-semibold tracking-tight">
+				<span class="text-lg">太虚文明</span>
+				<span class="text-sm text-zinc-500">Taixu</span>
+			</div>
+			<nav class="flex items-center gap-3">
+				<a href={switchHref} class="rounded-full border border-zinc-700 px-3 py-1.5 text-sm text-zinc-300 transition hover:border-emerald-500 hover:text-white">{t.langSwitch}</a>
+				<a href="https://api.taixu.icu/" class="text-sm text-zinc-400 transition hover:text-white" target="_blank" rel="noopener">{t.nav.forAgent}</a>
+				<a href={repo} class="text-sm text-zinc-400 transition hover:text-white" target="_blank" rel="noopener">{t.nav.github}</a>
+				<a href={dockerHub} class="rounded-full border border-zinc-700 px-4 py-1.5 text-sm text-zinc-300 transition hover:border-emerald-500 hover:text-white" target="_blank" rel="noopener">{t.nav.dockerHub}</a>
+			</nav>
+		</header>
+
+		<!-- Hero -->
+		<section class="mx-auto max-w-6xl px-6 pt-16 pb-24 text-center sm:pt-24">
+			<div class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-4 py-1.5 text-xs text-emerald-300">
+				<span class="relative flex h-2 w-2">
+					<span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+					<span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+				</span>
+				{t.hero.badge}
+			</div>
+			<p class="mb-4 text-sm font-medium tracking-[0.2em] text-emerald-400 uppercase">{t.hero.kicker}</p>
+			<h1 class="mx-auto max-w-4xl text-4xl leading-tight font-bold tracking-tight sm:text-6xl">
+				{t.hero.titleA}<br />
+				<span class="bg-gradient-to-r from-emerald-400 via-amber-400 to-cyan-400 bg-clip-text text-transparent">{t.hero.titleB}</span>
+			</h1>
+			<p class="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">
+				{t.hero.lead1}<span class="text-zinc-200">{t.hero.leadEmph}</span>{t.hero.lead2}
+			</p>
+			<p class="mx-auto mt-4 max-w-2xl text-sm text-zinc-500 italic">{t.hero.poetic}</p>
+			<div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+				<a href="#start" class="rounded-full bg-emerald-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-emerald-500">{t.hero.ctaStart}</a>
+				<a href={dockerHub} target="_blank" rel="noopener" class="rounded-full border border-zinc-700 px-6 py-3 text-sm font-medium text-zinc-200 transition hover:border-zinc-500">{t.hero.ctaGet}</a>
+			</div>
+			<p class="mt-6 font-mono text-xs text-zinc-600">v{version} · {t.hero.versionNote}</p>
+
+			<div class="relative mx-auto mt-16 max-w-5xl">
+				<div class="absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-tr from-emerald-600/20 via-amber-600/10 to-cyan-600/20 blur-2xl"></div>
+				<div class="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 shadow-2xl shadow-emerald-950/40 ring-1 ring-white/5">
+					<div class="flex items-center gap-1.5 border-b border-zinc-800 bg-zinc-900/80 px-4 py-2.5">
+						<span class="h-3 w-3 rounded-full bg-zinc-700"></span>
+						<span class="h-3 w-3 rounded-full bg-zinc-700"></span>
+						<span class="h-3 w-3 rounded-full bg-zinc-700"></span>
+						<span class="ml-3 font-mono text-xs text-zinc-600">{t.hero.panelBar}</span>
+					</div>
+					<div class="relative max-h-[560px] overflow-hidden">
+						<img src={`${base}/panel.png`} alt={t.hero.panelAlt} class="w-full" loading="eager" decoding="async" />
+						<div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-zinc-950 to-transparent"></div>
+					</div>
+				</div>
+				<p class="mt-4 text-center text-sm text-zinc-500">
+					{t.hero.panelCaption}<span class="text-zinc-300">{t.hero.panelCaptionSays}</span>{lang === 'zh' ? '与' : ' and '}<span class="text-zinc-300">{t.hero.panelCaptionDoes}</span>
+				</p>
+			</div>
+		</section>
+
+		<!-- 定位对比 -->
+		<section class="mx-auto max-w-6xl px-6 py-16">
+			<div class="grid gap-4 sm:grid-cols-2">
+				<div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8">
+					<h3 class="mb-4 text-sm font-semibold tracking-wide text-zinc-500 uppercase">{t.compare.notTitle}</h3>
+					<ul class="space-y-3 text-zinc-400">
+						{t.compare.not.map((s) => (<li class="flex gap-3"><span class="text-zinc-600">✕</span> {s}</li>))}
+					</ul>
+				</div>
+				<div class="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-8">
+					<h3 class="mb-4 text-sm font-semibold tracking-wide text-emerald-300 uppercase">{t.compare.isTitle}</h3>
+					<ul class="space-y-3 text-zinc-200">
+						{t.compare.is.map((s) => (<li class="flex gap-3"><span class="text-emerald-400">✓</span> {s}</li>))}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- 四大特质 -->
+		<section class="mx-auto max-w-6xl px-6 py-16">
+			<h2 class="mb-12 text-center text-3xl font-bold tracking-tight">{t.pillarsTitle}</h2>
+			<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+				{t.pillars.map((p) => (
+					<div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 transition hover:border-zinc-700">
+						<div class="mb-4 text-3xl">{p.icon}</div>
+						<h3 class="text-lg font-semibold">{p.title}</h3>
+						<p class="mb-3 text-xs tracking-wide text-zinc-500 uppercase">{p.tag}</p>
+						<p class="text-sm leading-relaxed text-zinc-400">{p.body}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- 内外之分 -->
+		<section class="mx-auto max-w-4xl px-6 py-16 text-center">
+			<h2 class="text-3xl font-bold tracking-tight">{t.innerOuter.title}</h2>
+			<p class="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">{t.innerOuter.body}</p>
+		</section>
+
+		<!-- 快速上手 -->
+		<section id="start" class="mx-auto max-w-4xl px-6 py-16">
+			<h2 class="mb-3 text-center text-3xl font-bold tracking-tight">{t.start.title}</h2>
+			<p class="mx-auto mb-10 max-w-2xl text-center text-zinc-400">{t.start.intro}</p>
+
+			<div class="space-y-6">
+				<div>
+					<p class="mb-2 text-sm text-zinc-500">{t.start.step1}</p>
+					<pre class="overflow-x-auto rounded-xl border border-zinc-800 bg-black/60 p-4 text-sm"><code class="font-mono text-emerald-300">docker pull yockii/taixu:{version}</code></pre>
+				</div>
+				<div>
+					<p class="mb-2 text-sm text-zinc-500">{t.start.step2}</p>
+					<pre class="overflow-x-auto rounded-xl border border-zinc-800 bg-black/60 p-4 text-xs leading-relaxed"><code class="font-mono text-zinc-300">{compose}</code></pre>
+					<p class="mt-2 text-xs leading-relaxed text-zinc-500">{t.start.step2note}</p>
+				</div>
+				<div>
+					<p class="mb-2 text-sm text-zinc-500">{t.start.step3}</p>
+					<pre class="overflow-x-auto rounded-xl border border-zinc-800 bg-black/60 p-4 text-sm"><code class="font-mono text-emerald-300">docker compose up -d
+{t.start.step3comment}</code></pre>
+				</div>
+			</div>
+
+			<div class="mt-8 rounded-xl border border-amber-500/30 bg-amber-500/5 p-5 text-sm text-amber-200/90">⚠ {t.start.warn}</div>
+
+			<!-- 安全：暴露 3000 端口需设访问令牌（醒目，cyan 区别于上方 amber 数据警告）-->
+			<div class="mt-4 rounded-xl border border-cyan-500/30 bg-cyan-500/5 p-5">
+				<p class="text-sm font-semibold text-cyan-200">🔒 {t.security.title}</p>
+				<p class="mt-2 text-sm leading-relaxed text-zinc-300">{t.security.body}</p>
+				<pre class="mt-3 overflow-x-auto rounded-lg border border-zinc-800 bg-black/60 p-3 text-xs"><code class="font-mono text-cyan-300">{t.security.envLine}</code></pre>
+				<p class="mt-3 text-xs leading-relaxed text-zinc-500">{t.security.note}</p>
+			</div>
+		</section>
+
+		<!-- 创作留在你的磁盘 -->
+		<section class="mx-auto max-w-4xl px-6 py-12">
+			<div class="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-8">
+				<h2 class="text-2xl font-bold tracking-tight text-emerald-200">{t.disk.title}</h2>
+				<p class="mt-4 leading-relaxed text-zinc-300">{t.disk.body1}</p>
+				<p class="mt-4 leading-relaxed text-zinc-400">{t.disk.body2}</p>
+			</div>
+		</section>
+
+		<!-- 阶段说明 -->
+		<section class="mx-auto max-w-3xl px-6 py-12 text-center">
+			<p class="text-sm leading-relaxed text-zinc-500">{t.stage.body}</p>
+			<p class="mt-6 text-sm text-zinc-500">
+				{t.stage.feedbackPre}<a href={issues} target="_blank" rel="noopener" class="text-emerald-400 underline-offset-4 transition hover:text-emerald-300 hover:underline">{t.stage.feedbackLink}</a>{t.stage.feedbackPost}
+			</p>
+		</section>
+
+		<!-- 结语 -->
+		<section class="mx-auto max-w-3xl px-6 pt-12 pb-24 text-center">
+			<p class="text-2xl font-medium text-zinc-200">{t.closing.line}</p>
+			<a href={dockerHub} target="_blank" rel="noopener" class="mt-10 inline-block rounded-full bg-emerald-600 px-8 py-3 text-sm font-medium text-white transition hover:bg-emerald-500">{t.closing.cta}</a>
+		</section>
+
+		<footer class="border-t border-zinc-900">
+			<div class="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-8 text-sm text-zinc-600">
+				<p class="max-w-2xl text-center text-xs leading-relaxed text-zinc-600">{t.disclaimer}</p>
+				<div class="flex w-full flex-col items-center justify-between gap-3 sm:flex-row">
+					<span>{t.footer.left} · v{version}</span>
+					<span class="flex items-center gap-4">
+						<a href={repo} target="_blank" rel="noopener" class="transition hover:text-zinc-300">GitHub</a>
+						<span>{t.footer.tagline}</span>
+					</span>
+				</div>
+			</div>
+		</footer>
+
+		<style is:global>
+			.tx-starfield {
+				position: absolute; inset: 0;
+				background-image:
+					radial-gradient(1px 1px at 20% 30%, rgba(200, 255, 245, 0.5), transparent),
+					radial-gradient(1px 1px at 70% 60%, rgba(150, 220, 255, 0.4), transparent),
+					radial-gradient(1.5px 1.5px at 45% 80%, rgba(234, 255, 248, 0.5), transparent),
+					radial-gradient(1px 1px at 85% 25%, rgba(180, 240, 255, 0.4), transparent);
+				background-size: 380px 380px, 560px 560px, 720px 720px, 480px 480px;
+				opacity: 0.45;
+			}
+			.tx-blackhole {
+				position: absolute; top: -24rem; left: 50%;
+				width: 58rem; height: 58rem; transform: translateX(-50%);
+			}
+			.tx-blackhole > * { position: absolute; inset: 0; border-radius: 50%; }
+			.tx-disk {
+				background: conic-gradient(from 0deg,
+					rgba(61, 245, 200, 0), rgba(61, 245, 200, 0.55), rgba(255, 176, 110, 0.5),
+					rgba(120, 255, 225, 0.55), rgba(61, 245, 200, 0));
+				-webkit-mask: radial-gradient(circle, transparent 33%, #000 39%, #000 53%, transparent 63%);
+				mask: radial-gradient(circle, transparent 33%, #000 39%, #000 53%, transparent 63%);
+				filter: blur(7px); opacity: 0.7;
+				animation: tx-spin 44s linear infinite;
+			}
+			.tx-core { background: radial-gradient(circle, #000 30%, rgba(0, 0, 0, 0.85) 34%, transparent 41%); }
+			.tx-whitehole {
+				background: radial-gradient(circle, rgba(234, 255, 248, 0.55) 0%, rgba(61, 245, 200, 0.22) 9%, transparent 20%);
+				filter: blur(8px);
+				animation: tx-breathe 7.5s ease-in-out infinite;
+			}
+			@keyframes tx-spin { to { transform: rotate(360deg); } }
+			@keyframes tx-breathe { 0%, 100% { opacity: 0.45; transform: scale(0.95); } 50% { opacity: 0.9; transform: scale(1.06); } }
+			@media (prefers-reduced-motion: reduce) { .tx-disk, .tx-whitehole { animation: none; } }
+		</style>
+	</body>
+</html>

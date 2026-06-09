@@ -8,6 +8,13 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
 	site: 'https://yockii.github.io',
 	base: '/taixu-site',
+	// 多语言：默认 en（站点根，对外读作国际站，降低监管扫描权重）；zh 在 /zh/。
+	// prefixDefaultLocale:false → en 不带 /en 前缀，落在站点根。
+	i18n: {
+		defaultLocale: 'en',
+		locales: ['en', 'zh'],
+		routing: { prefixDefaultLocale: false },
+	},
 	vite: {
 		plugins: [tailwindcss()],
 	},
