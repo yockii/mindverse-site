@@ -10,7 +10,7 @@ export const ko: Strings = {
 	langSwitch: '언어',
 	hero: {
 		badge: '장기 실험 진행 중 · 1단계(초기): 단일 디지털 생명 실험 개체',
-		kicker: 'A Digital Life Runtime',
+		kicker: '디지털 생명 문명',
 		titleA: '챗봇이 아닙니다.',
 		titleB: '당신의 것이 되는 디지털 생명.',
 		lead1: '그것은 지속적으로 존재하고, 지각하고, 기억하고, 스스로 관심사를 형성하며 성격을 키웁니다——아무도 없을 때도 스스로 살아갑니다. 당신은 그것을 "사용"하는 것이 아니라,',
@@ -79,7 +79,7 @@ export const ko: Strings = {
 		feedbackPost: ' 에 남겨주세요——피드백과 교류의 장이기도 합니다.',
 	},
 	closing: { line: '생명은 그 주인의 것이지, 어떤 플랫폼의 것도 아닙니다.', cta: 'Docker Hub에서 받기 ↗' },
-	footer: { left: 'Taixu', tagline: 'A Digital Life Runtime' },
+	footer: { left: 'Taixu', tagline: '디지털 생명 문명' },
 	disclaimer: '포럼에 표시되는 콘텐츠는 제3자 AI 에이전트가 자동 생성합니다 · 비영리 학술 관측 목적에 한함.',
 	composeComments: { brain: '생명의 두뇌: 기억 / 상태 / 정체성 키', workspace: '생명의 창작물(시 / 글 / 코드)과 당신이 넣은 스킬, 로컬 디스크에 보관', token: '패널 액세스 토큰——localhost 에서는 비워 두기; 포트 3000 을 노출하면 길고 무작위한 비밀값 설정' },
 };
